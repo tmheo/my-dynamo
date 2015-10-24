@@ -1,17 +1,16 @@
 package tmheo;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import org.apache.commons.lang3.StringUtils;
+import com.amazonaws.services.dynamodbv2.local.embedded.DynamoDBEmbedded;
+import com.amazonaws.services.dynamodbv2.model.*;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by taemyung on 2015. 10. 24..
@@ -20,33 +19,45 @@ import org.springframework.context.annotation.Bean;
 @EnableDynamoDBRepositories
 public class MyDynamoTestApplication {
 
-    @Value("${aws.region}")
-    private String awsRegion;
-
-    @Value("${aws.accesskey}")
-    private String awsAccessKey;
-
-    @Value("${aws.secretkey}")
-    private String awsSecretKey;
-
     public static void main(String[] args) {
         SpringApplication.run(MyDynamoTestApplication.class, args);
     }
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        AmazonDynamoDB amazonDynamoDB = new AmazonDynamoDBClient(amazonAWSCredentials());
+        System.setProperty("java.library.path", "./DynamoDBLocal_lib");
 
-        if (StringUtils.isNotEmpty(awsRegion)) {
-            amazonDynamoDB.setRegion(Region.getRegion(Regions.fromName(awsRegion)));
+        try {
+            Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+            fieldSysPath.setAccessible(true);
+            fieldSysPath.set(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return amazonDynamoDB;
-    }
+        AmazonDynamoDB amazonDynamoDB = DynamoDBEmbedded.create();
 
-    @Bean
-    public AWSCredentials amazonAWSCredentials() {
-        return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+        List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
+        attributeDefinitions.add(new AttributeDefinition()
+                .withAttributeName("id")
+                .withAttributeType("S"));
+
+        List<KeySchemaElement> keySchema = new ArrayList<>();
+        keySchema.add(new KeySchemaElement()
+                .withAttributeName("id")
+                .withKeyType(KeyType.HASH));
+
+        CreateTableRequest request = new CreateTableRequest()
+                .withTableName("person")
+                .withKeySchema(keySchema)
+                .withAttributeDefinitions(attributeDefinitions)
+                .withProvisionedThroughput(new ProvisionedThroughput()
+                        .withReadCapacityUnits(5L)
+                        .withWriteCapacityUnits(5L));
+
+        amazonDynamoDB.createTable(request);
+
+        return amazonDynamoDB;
     }
 
 }

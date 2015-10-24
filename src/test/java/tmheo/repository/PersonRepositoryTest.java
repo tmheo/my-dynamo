@@ -50,9 +50,9 @@ public class PersonRepositoryTest {
     public void testFindAll() throws Exception {
 
         // Given
-        Person person = new Person("test@test.com", "firstName", "lastName");
-
-        personRepository.save(person);
+        for (int i = 0; i < 10; i++) {
+            personRepository.save(new Person("test" + i + "@test.com", "firstName" + i, "lastName" + i));
+        }
 
         // sort not work for findAll
         Pageable pageRequest = new PageRequest(0, 10);
