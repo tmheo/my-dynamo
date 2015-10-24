@@ -28,6 +28,7 @@ repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
     maven { url "https://repo.spring.io/milestone" }
+    maven { url "http://repo.opensourceagility.com/release" }
 }
 
 
@@ -36,6 +37,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-devtools')
     compile('org.projectlombok:lombok')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.socialsignin:spring-data-dynamodb:1.0.2.RELEASE')
+    compile('org.springframework.data:spring-data-commons:1.9.0.RELEASE')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
