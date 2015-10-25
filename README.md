@@ -1,2 +1,2 @@
 # my-dynamo
-Spring Boot, AWS DynamoDB Rest API
+Spring Boot, AWS DynamoDB REST API
