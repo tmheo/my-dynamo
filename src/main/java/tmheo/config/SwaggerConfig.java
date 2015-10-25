@@ -38,7 +38,7 @@ public class SwaggerConfig {
     private ApiInfo metadata() {
         return new ApiInfoBuilder()
                 .title("My Dynamo API")
-                .description("Spring Boot, AWS DynamoDB, REST API")
+                .description("Spring Boot, AWS DynamoDB REST API")
                 .version("1.0")
                 .contact("tmheo74@gmail.com")
                 .build();
