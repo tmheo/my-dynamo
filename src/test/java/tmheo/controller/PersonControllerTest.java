@@ -42,7 +42,7 @@ public class PersonControllerTest extends AbstractControllerTest {
                 .contentType(ContentType.JSON)
                         // When
                 .when()
-                .post("/persons")
+                .post("/v1/persons")
                         // Then
                 .then()
                 .log().all()
