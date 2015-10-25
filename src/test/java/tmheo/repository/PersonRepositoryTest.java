@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tmheo.MyDynamoTestApplication;
-import tmheo.model.Person;
+import tmheo.entity.Person;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

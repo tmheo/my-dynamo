@@ -3,6 +3,7 @@ package tmheo;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.local.embedded.DynamoDBEmbedded;
 import com.amazonaws.services.dynamodbv2.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @SpringBootApplication
 @EnableDynamoDBRepositories
+@Slf4j
 public class MyDynamoTestApplication {
 
     public static void main(String[] args) {
@@ -37,6 +39,8 @@ public class MyDynamoTestApplication {
 
         AmazonDynamoDB amazonDynamoDB = DynamoDBEmbedded.create();
 
+        String tableName = "person";
+
         List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
         attributeDefinitions.add(new AttributeDefinition()
                 .withAttributeName("id")
@@ -48,7 +52,7 @@ public class MyDynamoTestApplication {
                 .withKeyType(KeyType.HASH));
 
         CreateTableRequest request = new CreateTableRequest()
-                .withTableName("person")
+                .withTableName(tableName)
                 .withKeySchema(keySchema)
                 .withAttributeDefinitions(attributeDefinitions)
                 .withProvisionedThroughput(new ProvisionedThroughput()
@@ -56,6 +60,8 @@ public class MyDynamoTestApplication {
                         .withWriteCapacityUnits(5L));
 
         amazonDynamoDB.createTable(request);
+
+        log.debug("created dynamodb table[{}]", tableName);
 
         return amazonDynamoDB;
     }

@@ -5,7 +5,7 @@ import org.socialsignin.spring.data.dynamodb.repository.EnableScanCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import tmheo.model.Person;
+import tmheo.entity.Person;
 
 /**
  * Created by taemyung on 2015. 10. 24..
