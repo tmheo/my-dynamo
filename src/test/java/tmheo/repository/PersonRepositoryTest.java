@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import tmheo.MyDynamoTestApplication;
 import tmheo.entity.Person;
 
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = MyDynamoTestApplication.class)
+@WebAppConfiguration
 @ActiveProfiles("test")
 @Slf4j
 public class PersonRepositoryTest {
