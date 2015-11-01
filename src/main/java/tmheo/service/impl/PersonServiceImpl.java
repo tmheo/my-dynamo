@@ -33,4 +33,17 @@ public class PersonServiceImpl implements PersonService {
 
     }
 
+    @Override
+    public PersonResponse getPerson(String id) {
+
+        log.debug("get person request by id[{}]", id);
+
+        PersonResponse personResponse = new PersonResponse(personRepository.findOne(id));
+
+        log.debug("get person response by id[{}] : {}", id, personResponse);
+
+        return personResponse;
+
+    }
+
 }

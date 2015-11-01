@@ -4,10 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tmheo.model.PersonRequest;
 import tmheo.model.PersonResponse;
 import tmheo.service.PersonService;
@@ -35,6 +32,20 @@ public class PersonController {
         PersonResponse personResponse = personService.createPerson(personRequest.convertToPerson());
 
         log.debug("create person response : {}", personResponse);
+
+        return personResponse;
+
+    }
+
+    @ApiOperation(value = "Get a person", response = PersonResponse.class)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public PersonResponse getPerson(@PathVariable String id) {
+
+        log.debug("get person request by id[{}]", id);
+
+        PersonResponse personResponse = personService.getPerson(id);
+
+        log.debug("get person response by id[{}] : {}", id, personResponse);
 
         return personResponse;
 

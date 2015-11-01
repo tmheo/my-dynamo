@@ -10,4 +10,6 @@ public interface PersonService {
 
     PersonResponse createPerson(Person person);
 
+    PersonResponse getPerson(String id);
+
 }
