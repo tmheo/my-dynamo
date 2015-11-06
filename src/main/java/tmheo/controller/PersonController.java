@@ -12,8 +12,6 @@ import tmheo.model.PersonRequest;
 import tmheo.model.PersonResponse;
 import tmheo.service.PersonService;
 
-import javax.servlet.http.HttpServletResponse;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -28,7 +26,7 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @ApiOperation(value = "Create a person", response = PersonResponse.class)
+    @ApiOperation(value = "Create a person", response = PersonResponse.class, position = 1)
     @RequestMapping(method = RequestMethod.POST)
     public PersonResponse createPerson(@RequestBody PersonRequest personRequest) {
 
@@ -42,7 +40,7 @@ public class PersonController {
 
     }
 
-    @ApiOperation(value = "Get a person", response = PersonResponse.class)
+    @ApiOperation(value = "Get a person", response = PersonResponse.class, position = 2)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public PersonResponse getPerson(@PathVariable String id) {
 
@@ -56,7 +54,7 @@ public class PersonController {
 
     }
 
-    @ApiOperation(value = "Update a person", response = PersonResponse.class)
+    @ApiOperation(value = "Update a person", response = PersonResponse.class, position = 3)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public PersonResponse updatePerson(@PathVariable String id, @RequestBody PersonRequest personRequest) {
 
@@ -73,9 +71,9 @@ public class PersonController {
 
     }
 
-    @ApiOperation(value = "Delete a person", response = PersonResponse.class)
+    @ApiOperation(value = "Delete a person", response = PersonResponse.class, position = 4)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deletePerson(@PathVariable String id, HttpServletResponse httpServletResponse) {
+    public ResponseEntity deletePerson(@PathVariable String id) {
 
         log.debug("delete person request by id[{}]", id);
 
