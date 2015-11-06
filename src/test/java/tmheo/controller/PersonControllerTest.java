@@ -75,4 +75,61 @@ public class PersonControllerTest extends AbstractControllerTest {
 
     }
 
+    @Test
+    public void testUpdatePerson() throws Exception {
+
+        // Given
+        PersonRequest personRequest = new PersonRequest();
+
+        personRequest.setEmail("test@test.com");
+        personRequest.setFirstName("firstName");
+        personRequest.setLastName("lastName");
+
+        PersonResponse personResponse = personService.createPerson(personRequest.convertToPerson());
+
+        personRequest.setEmail("test_updated@test.com");
+        personRequest.setFirstName("updated firstName");
+        personRequest.setLastName("updated lastName");
+
+        given()
+                .log().all()
+                .body(personRequest)
+                .contentType(ContentType.JSON)
+                        // When
+                .when()
+                .put("/v1/persons/" + personResponse.getId())
+                        // Then
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .body("id", is(personResponse.getId()))
+                .body("email", is(personRequest.getEmail()));
+
+    }
+
+    @Test
+    public void testDeletePerson() throws Exception {
+
+        // Given
+        PersonRequest personRequest = new PersonRequest();
+
+        personRequest.setEmail("test@test.com");
+        personRequest.setFirstName("firstName");
+        personRequest.setLastName("lastName");
+
+        PersonResponse personResponse = personService.createPerson(personRequest.convertToPerson());
+
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                        // When
+                .when()
+                .delete("/v1/persons/" + personResponse.getId())
+                        // Then
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+
+    }
+
 }

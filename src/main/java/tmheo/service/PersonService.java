@@ -12,4 +12,8 @@ public interface PersonService {
 
     PersonResponse getPerson(String id);
 
+    PersonResponse updatePerson(Person person);
+
+    boolean deletePerson(String id);
+
 }
